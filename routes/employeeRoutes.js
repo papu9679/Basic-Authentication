@@ -1,6 +1,7 @@
 import express from 'express';
-import Employee from '../model/employee.js';
+import Employee from '../model/employeeModel.js';
 import { Authentications, Authorization } from '../middleware/verify.js';
+import { hash } from 'bcrypt';
 
 const router = express.Router();
 
@@ -10,6 +11,9 @@ router.post('/', async (req, res) => {
 		console.log('inside single router');
 
 		const newEmployee = req.body;
+
+		//bcrypt hased the password
+		newEmployee.password = await hash(newEmployee.password, 10);
 
 		// create this emloyee in db
 		const employeeDB = await Employee.create(newEmployee);
@@ -34,7 +38,16 @@ router.post('/many', async (req, res) => {
 		console.log('inside many routes');
 
 		const newEmployee = req.body;
-		const response = await Employee.insertMany(newEmployee);
+
+		//hased the password for all employee
+		const employeesWithHashedPasswords = await Promise.all(
+			newEmployee.map(async (employee) => ({
+				...employee,
+				password: await hash(employee.password, 10),
+			})),
+		);
+
+		const response = await Employee.insertMany(employeesWithHashedPasswords);
 		console.log('respose done', response);
 	} catch (error) {
 		res.status(501).json({

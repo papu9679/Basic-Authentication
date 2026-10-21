@@ -13,6 +13,9 @@ const employeeSchema = new mongoose.Schema({
 	dept: {
 		type: String,
 	},
+	password: {
+		type: String,
+	},
 });
 
 const Employee = mongoose.model('Employee', employeeSchema);

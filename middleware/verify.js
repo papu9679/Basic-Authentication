@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import Employee from '../model/employee.js';
+import Employee from '../model/employeeModel.js';
 
 const Authentications = async (req, res, next) => {
 	try {
