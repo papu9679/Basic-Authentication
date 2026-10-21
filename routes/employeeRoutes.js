@@ -62,7 +62,6 @@ router.get('/', Authentications, async (req, res) => {
 	try {
 		const { id } = req.body;
 		const employee = await Employee.findOne({ id });
-		console.log('employee', employee);
 		res.status(201).json({
 			message: 'Success',
 			employee,

@@ -1,20 +1,30 @@
 import mongoose from 'mongoose';
 import Employee from '../model/employeeModel.js';
+import { compare } from 'bcrypt';
 
 const Authentications = async (req, res, next) => {
 	try {
 		console.log('inside Authentication');
 
-		const { id } = req.body;
+		const { id, password } = req.body;
 		const employee = await Employee.findOne({ id });
 		if (!employee) {
 			return res.status(404).json({
 				message: 'Employee not found',
 			});
-		} else {
-			req.employee = employee;
-			next();
 		}
+
+		//check the password is matched
+		const result =  compare(password, employee.password);
+		console.log('result', result);
+
+		if (!result) {
+			return res.status(403).json({
+				message: 'Password not match',
+			});
+		}
+		req.employee = employee;
+		next();
 	} catch (error) {
 		res.status(404).json({
 			message: 'Server Error',
