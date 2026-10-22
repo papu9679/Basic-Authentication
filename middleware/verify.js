@@ -1,4 +1,3 @@
-import mongoose from 'mongoose';
 import Employee from '../model/employeeModel.js';
 import { compare } from 'bcrypt';
 
@@ -14,8 +13,8 @@ const Authentications = async (req, res, next) => {
 			});
 		}
 
-		//check the password is matched
-		const result =  compare(password, employee.password);
+		//check the password is matched //await??
+		const result = compare(password, employee.password);
 		console.log('result', result);
 
 		if (!result) {
