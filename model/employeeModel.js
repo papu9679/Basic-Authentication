@@ -13,7 +13,8 @@ const employeeSchema = new mongoose.Schema({
 	dept: {
 		type: String,
 	},
-	password: {			//pass: name123
+	password: {
+		//pass: name123
 		type: String,
 	},
 });
