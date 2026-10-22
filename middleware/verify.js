@@ -14,8 +14,8 @@ const Authentications = async (req, res, next) => {
 		}
 
 		//check the password is matched //await??
-		const result = compare(password, employee.password);
-		console.log('result', result);
+		const result = await compare(password, employee.password);
+		console.log('result123', result);
 
 		if (!result) {
 			return res.status(403).json({
